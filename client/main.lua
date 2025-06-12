@@ -1,3 +1,5 @@
+if not lib.checkDependency('ox_lib', '3.30.0', true) then return end
+
 local QBCore = exports['qb-core']:GetCoreObject()
 local firstAlarm = false
 local smashing = false
@@ -57,6 +59,16 @@ local function smashVitrine(k)
         })
         firstAlarm = true
     end
+
+    local copCount = lib.callback.await('qb-jewellery:server:getCops', false)
+
+    if copCount < Config.RequiredCops then
+        QBCore.Functions.Notify(Lang:t('error.minimum_police', { value = Config.RequiredCops }), 'error')
+        TriggerServerEvent('qb-jewellery:server:setBusy', k, false)
+        targetBusy = false
+        return
+    end
+
     smashing = true
 
     local animDict = 'missheist_jewel'
@@ -132,7 +144,7 @@ CreateThread(function()
     Config.JewelleryLocation['coords']['z'])
     SetBlipSprite(Dealer, 617)
     SetBlipDisplay(Dealer, 4)
-    SetBlipScale(Dealer, 0.7)
+    SetBlipScale(Dealer, 0.8)
     SetBlipAsShortRange(Dealer, true)
     SetBlipColour(Dealer, 3)
     BeginTextCommandSetBlipName('STRING')
@@ -154,7 +166,7 @@ CreateThread(function()
                     options = {
                         {
                             type = 'client',
-                            icon = 'fa fa-hand',
+                            icon = 'fa-solid fa-hand',
                             label = Lang:t('general.target_label'),
                             action = function()
                                 targetBusy = true
@@ -215,6 +227,8 @@ CreateThread(function()
                 debugPoly = true
             })
             boxZone:onPlayerInOut(function(isPointInside)
+                local copCount = lib.callback.await('qb-jewellery:server:getCops', false)
+                if copCount < Config.RequiredCops then return end
                 if GlobalState.VitrineLocations[k].isBusy or GlobalState.VitrineLocations[k].isOpened then return end
                 if isPointInside then
                     exports['qb-core']:DrawText(Lang:t('general.drawtextui_grab'), 'left')

@@ -1,3 +1,5 @@
+if not lib.checkDependency('ox_lib', '3.30.0', true) then return end
+
 local QBCore = exports['qb-core']:GetCoreObject()
 local timeOut = false
 local flags = {}
@@ -33,6 +35,16 @@ local vitrineLocations = {
 }
 
 GlobalState.VitrineLocations = vitrineLocations
+
+lib.callback.register('qb-jewellery:server:getCops', function()
+    local count = 0
+    for _, i in ipairs(QBCore.Functions.GetQBPlayers()) do
+        if (i.PlayerData.job.name == 'police' or i.PlayerData.job.type == 'leo') and i.PlayerData.job.onduty then
+            count = count + 1
+        end
+    end
+    return count
+end)
 
 local function exploitBan(id, reason)
     MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -131,6 +143,9 @@ RegisterNetEvent('qb-jewellery:server:vitrineReward', function(vitrineIndex)
         exploitBan(src, 'Trying to trigger an exploitable event \"qb-jewellery:server:vitrineReward\"')
         return
     end
+
+    local copCount = lib.callback.await('qb-jewellery:server:getCops', src)
+    if copCount >= Config.RequiredCops then return end
 
     if not checkDist(src, vitrineIndex) then
         handleCheat(Player)

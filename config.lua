@@ -8,7 +8,7 @@ Config.Target = 'ox' -- supported: 'ox' or 'qb'
 
 Config.Timeout = 15 * (60 * 1000)
 
-Config.RequiredCops = 0 -- 2
+Config.RequiredCops = 2 -- 0
 
 Config.Inventory = 'ox' -- supported: 'ox' or 'qb'
 
