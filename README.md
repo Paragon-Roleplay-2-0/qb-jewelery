@@ -1,3 +1,13 @@
+# Acknowledgements
+
+## Mustache Dom
+
+- Huge shoutout to Mustache Dom for creating a working fork of this resource.
+
+## Community Ox
+
+- Another huge shoutout to Community Ox for continuing to maintain Overextended's resources and keeping their legacy alive!
+
 # qb-jewelery
 Jewelry Robbery For QB-Core
 
@@ -5,7 +15,7 @@ Jewelry Robbery For QB-Core
 - Global DrawTextUi Option
 ```
 setr UseTarget false
-``` 
+```
 
 - Global Target Option
 ```

@@ -9,7 +9,8 @@ shared_scripts {
     '@qb-core/shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
-    'config.lua'
+    'config.lua',
+    '@ox_lib/init.lua'
 }
 
 client_script {
@@ -17,6 +18,7 @@ client_script {
     '@PolyZone/BoxZone.lua',
     'client/main.lua'
 }
+
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/main.lua'
